@@ -6,7 +6,7 @@ import io.github.harperkej.common.Set;
 /**
  * Fine grained synchronized linked set.
  * A thread obtains the lock of an element and then moves on to obtain
- * the lock of the next thread and so on it travers the set by obtaining the locks of elements hand by hand.
+ * the lock of the next element in th set and so on it travers the set by obtaining the locks of elements in a hand by hand manner.
  */
 public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
 
@@ -28,7 +28,8 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
      * (Long.MIN_VALUE, MAX_VALUE) - exclusive start and end.
      * <p>
      * Multiple threads execute this method simultaneously,
-     * but each thread controls at most two elements at any point in time.
+     * but each thread locks at most two elements at any point in time and threads
+     * probably can not overtake each other.
      *
      * @param object The object to be inserted.
      * @return true in case the object is inserted, false otherwise.
@@ -61,7 +62,7 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
     }
 
     /**
-     * Removes a given node from the set, if the node exists.
+     * Removes a given node from the set, if the node exists in the set.
      * <p>
      * As in the case of the <add/> method, multiple threads can execute this method simultaneously,
      * but each thread controls at most two elements at any point in time.

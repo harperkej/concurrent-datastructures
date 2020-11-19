@@ -1,6 +1,6 @@
 package io.github.harperkej;
 
-import io.github.harperkej.collection.set.FineGrainedSynchronizedLinkedSet;
+import io.github.harperkej.collection.set.OptimisticSynchronizedLinkedSet;
 import io.github.harperkej.common.CustomThread;
 import io.github.harperkej.common.Node;
 import io.github.harperkej.common.Set;
@@ -23,15 +23,18 @@ public class App {
             nodes.add(node);
         }
 
-        Set<Integer> set = new FineGrainedSynchronizedLinkedSet<>();
+        Set<Integer> set = new OptimisticSynchronizedLinkedSet<>();
 
         MyThread[] threads = new MyThread[4];
+
         for (int i = 0; i < threads.length; i++) {
             threads[i] = new MyThread(i, nodes, set);
         }
+
         for (int i = 0; i < threads.length; i++) {
             threads[i].start();
         }
+
         for (int i = 0; i < threads.length; i++) {
             threads[i].join();
         }
