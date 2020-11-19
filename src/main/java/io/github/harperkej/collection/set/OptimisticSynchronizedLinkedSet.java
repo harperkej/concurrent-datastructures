@@ -16,8 +16,9 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
     }
 
     @Override
-    public boolean add(Node<T> object) {
-        long objectKey = object.getKey();
+    public boolean add(T object) {
+        long objectKey = object.hashCode();
+        Node<T> newNode = new Node<>((long) object);
         while (true) {
             Node<T> predecessor = this.head;
             Node<T> successor = predecessor.getNext();
@@ -30,8 +31,8 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
                 successor.lock();
                 if (validate(predecessor, successor)) {
                     if (successor.getKey() == objectKey) return false; // do not add the same element twice.
-                    predecessor.setNext(object);
-                    object.setNext(successor);
+                    predecessor.setNext(newNode);
+                    newNode.setNext(successor);
                     return true;
                 }
             } finally {
@@ -44,8 +45,9 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
     }
 
     @Override
-    public boolean remove(Node<T> object) {
-        long objectKey = object.getKey();
+    public boolean remove(T object) {
+        Node<T> node = new Node<>((long) object.hashCode());
+        Long objectKey = node.getKey();
         while (true) {
             Node predecessor = this.head;
             Node current = predecessor.getNext();
@@ -57,7 +59,7 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
                 predecessor.lock();
                 current.lock();
                 if (validate(predecessor, current)) {
-                    if (objectKey == current.getKey()) {
+                    if (objectKey.equals(current.getKey())) {
                         predecessor.setNext(current.getNext());
                         return true;
                     } else return false;
@@ -72,8 +74,9 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
     }
 
     @Override
-    public boolean contains(Node<T> object) {
-        long objectKey = object.getKey();
+    public boolean contains(T object) {
+        Node<T> node = new Node<>((long) object.hashCode());
+        Long objectKey = node.getKey();
         while (true) {
             Node<T> predecessor = this.head;
             Node<T> current = predecessor.getNext();
@@ -85,7 +88,7 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
                 predecessor.lock();
                 current.lock();
                 if (validate(predecessor, current)) {
-                    if (current.getKey() == objectKey) return true;
+                    if (current.getKey().equals(objectKey)) return true;
                     else return false;
                 }
             } finally {

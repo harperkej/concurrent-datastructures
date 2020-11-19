@@ -35,9 +35,10 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
      * @return true in case the object is inserted, false otherwise.
      */
     @Override
-    public boolean add(Node<T> object) {
+    public boolean add(T object) {
         Node predecessor = null, successor = null;
-        long objectKey = object.getKey();
+        Node<T> newNode = new Node<>((long) object.hashCode());
+        long objectKey = newNode.getKey();
         try {
             predecessor = this.head;
             predecessor.lock();
@@ -45,8 +46,8 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
             successor.lock();
             while (successor != null) {
                 if (predecessor.getKey() < objectKey && successor.getKey() > objectKey) {
-                    predecessor.setNext(object);
-                    object.setNext(successor);
+                    predecessor.setNext(newNode);
+                    newNode.setNext(successor);
                     return true;
                 }
                 predecessor.unlock();
@@ -71,16 +72,17 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
      * @return true if the object is removed, otherwise false.
      */
     @Override
-    public boolean remove(Node<T> object) {
+    public boolean remove(T object) {
         Node predecessor = null, current = null;
-        long objectKey = object.getKey();
+        Node<T> node = new Node<>((long) object.hashCode());
+        Long objectKey = node.getKey();
         try {
             predecessor = this.head;
             predecessor.lock();
             current = predecessor.getNext();
             current.lock();
             while (current != null && current.getKey() <= objectKey) {
-                if (objectKey == current.getKey()) {
+                if (objectKey.equals(current.getKey())) {
                     predecessor.setNext(current.getNext());
                     return true;
                 }
@@ -107,14 +109,15 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
      */
 
     @Override
-    public boolean contains(Node<T> object) {
+    public boolean contains(T object) {
         Node current = null;
-        long objectKey = object.getKey();
+        Node<T> node = new Node<>((long) object.hashCode());
+        Long objectKey = node.getKey();
         try {
             current = this.head.getNext();
             current.lock();
-            while (current != null && objectKey <= current.getKey()) {
-                if (objectKey == current.getKey()) {
+            while (current != null && objectKey >= current.getKey()) {
+                if (objectKey.equals(current.getKey())) {
                     return true;
                 }
                 current.unlock();

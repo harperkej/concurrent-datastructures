@@ -9,11 +9,11 @@ public class Node<T> {
     /**
      * The identifier of the node. Typically a hash value of the content of the node.
      */
-    private long key;
+    private Long key;
 
     private CLHLock lock;
 
-    public Node(long key) {
+    public Node(Long key) {
         this.key = key;
         this.lock = new CLHLock();
     }
@@ -34,11 +34,11 @@ public class Node<T> {
         this.next = next;
     }
 
-    public long getKey() {
+    public Long getKey() {
         return key;
     }
 
-    public void setKey(long key) {
+    public void setKey(Long key) {
         this.key = key;
     }
 

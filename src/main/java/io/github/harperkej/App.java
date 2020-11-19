@@ -18,7 +18,7 @@ public class App {
 
         List<Node<Integer>> nodes = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Node node = new Node(i);
+            Node node = new Node((long) i);
             node.setObject(i);
             nodes.add(node);
         }
