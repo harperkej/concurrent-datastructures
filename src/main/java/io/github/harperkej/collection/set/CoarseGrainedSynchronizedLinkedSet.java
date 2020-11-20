@@ -57,6 +57,7 @@ public class CoarseGrainedSynchronizedLinkedSet<T> implements Set<T> {
         Node predecessor = head;
         Node current = head.getNext();
         Node<T> node = new Node<T>((long) object.hashCode());
+        node.setObject(object);
         long objectKey = node.getKey();
         while (current != null && objectKey != current.getKey()) {
             predecessor = current;
@@ -79,6 +80,7 @@ public class CoarseGrainedSynchronizedLinkedSet<T> implements Set<T> {
     public synchronized boolean contains(T object) {
         Node node = head.getNext();
         Node<T> newNode = new Node<>((long) object.hashCode());
+        newNode.setObject(object);
         long objectKey = newNode.getKey();
         while (objectKey > node.getKey()) {
             node = node.getNext();

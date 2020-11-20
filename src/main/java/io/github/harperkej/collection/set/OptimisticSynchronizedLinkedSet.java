@@ -19,6 +19,7 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
     public boolean add(T object) {
         long objectKey = object.hashCode();
         Node<T> newNode = new Node<>((long) object);
+        newNode.setObject(object);
         while (true) {
             Node<T> predecessor = this.head;
             Node<T> successor = predecessor.getNext();
@@ -47,6 +48,7 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
     @Override
     public boolean remove(T object) {
         Node<T> node = new Node<>((long) object.hashCode());
+        node.setObject(object);
         Long objectKey = node.getKey();
         while (true) {
             Node predecessor = this.head;
@@ -76,6 +78,7 @@ public class OptimisticSynchronizedLinkedSet<T> implements Set<T> {
     @Override
     public boolean contains(T object) {
         Node<T> node = new Node<>((long) object.hashCode());
+        node.setObject(object);
         Long objectKey = node.getKey();
         while (true) {
             Node<T> predecessor = this.head;

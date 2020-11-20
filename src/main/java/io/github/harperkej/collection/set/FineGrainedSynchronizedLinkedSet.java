@@ -38,6 +38,7 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
     public boolean add(T object) {
         Node predecessor = null, successor = null;
         Node<T> newNode = new Node<>((long) object.hashCode());
+        newNode.setObject(object);
         long objectKey = newNode.getKey();
         try {
             predecessor = this.head;
@@ -75,6 +76,7 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
     public boolean remove(T object) {
         Node predecessor = null, current = null;
         Node<T> node = new Node<>((long) object.hashCode());
+        node.setObject(object);
         Long objectKey = node.getKey();
         try {
             predecessor = this.head;
@@ -112,6 +114,7 @@ public class FineGrainedSynchronizedLinkedSet<T> implements Set<T> {
     public boolean contains(T object) {
         Node current = null;
         Node<T> node = new Node<>((long) object.hashCode());
+        node.setObject(object);
         Long objectKey = node.getKey();
         try {
             current = this.head.getNext();
