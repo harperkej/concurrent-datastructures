@@ -1,84 +1,71 @@
 package io.github.harperkej;
 
-import io.github.harperkej.collection.set.OptimisticSynchronizedLinkedSet;
-import io.github.harperkej.common.CustomThread;
-import io.github.harperkej.common.Node;
-import io.github.harperkej.common.Set;
+import io.github.harperkej.matrixmultiplication.NaiveMatrixMultiplication;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.Arrays;
 
-/**
- * Hello world!
- */
 public class App {
 
     public static void main(String[] args) throws InterruptedException {
 
-        List<Node<Integer>> nodes = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Node node = new Node((long) i);
-            node.setObject(i);
-            nodes.add(node);
-        }
+        double[][] a = {{1, 3, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {1, 5, 2, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10}};
 
-        Set<Integer> set = new OptimisticSynchronizedLinkedSet<>();
+        double[][] b = {{1, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {50, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10},
+                {0, 1, 1, 1, 2, 3, 4, 5, 6, 10, 0, 1, 1, 1, 2, 3, 4, 5, 6, 10}};
 
-        MyThread[] threads = new MyThread[4];
+        double[][] c = new double[a.length][b[0].length];
 
-        for (int i = 0; i < threads.length; i++) {
-            threads[i] = new MyThread(i, nodes, set);
-        }
+        NaiveMatrixMultiplication[][] naiveMatrixMultiplication = new NaiveMatrixMultiplication[c.length][c[0].length];
 
-        for (int i = 0; i < threads.length; i++) {
-            threads[i].start();
-        }
+        for (int row = 0; row < a.length; row++)
+            for (int col = 0; col < b[0].length; col++)
+                naiveMatrixMultiplication[row][col] = new NaiveMatrixMultiplication(row, col, a, b, c);
 
-        for (int i = 0; i < threads.length; i++) {
-            threads[i].join();
-        }
+        for (int row = 0; row < a.length; row++)
+            for (int col = 0; col < b[0].length; col++) naiveMatrixMultiplication[row][col].start();
+
+        for (int row = 0; row < a.length; row++)
+            for (int col = 0; col < b[0].length; col++) naiveMatrixMultiplication[row][col].join();
+
+
+        for (int row = 0; row < c.length; row++)
+            System.out.println(Arrays.toString(c[row]));
     }
-
-    public static class MyThread extends CustomThread {
-
-        private int id;
-        private List<Node<Integer>> nodes;
-        private Set set;
-
-        public MyThread(int id, List<Node<Integer>> nodes, Set<Integer> set) {
-            super(id);
-            this.id = id;
-            this.nodes = nodes;
-            this.set = set;
-        }
-
-        @Override
-        public void run() {
-            Random random = new Random();
-            for (int i = 0; i < nodes.size(); i++) {
-                Node node = nodes.get(i);
-                int operation = random.nextInt(3);
-                switch (operation) {
-                    case 0:
-                        set.add(node);
-                        break;
-                    case 1:
-                        set.remove(node);
-                        break;
-                    case 2:
-                        set.contains(node);
-                        break;
-                    default:
-                        System.out.println("Something unexpected.");
-                }
-            }
-        }
-
-        @Override
-        public long getId() {
-            return id;
-        }
-    }
-
 }
