@@ -1,5 +1,8 @@
 package io.github.harperkej.matrixmultiplication;
 
+/**
+ * A very naive and not efficient concurrent matrix multiplication.
+ */
 public class NaiveMatrixMultiplication extends Thread {
 
     private int row;
